@@ -25,17 +25,7 @@ dataTransforms = transforms.Compose(
             224
         ),  # Randomly crop and resize the image to 224x224
         transforms.RandomHorizontalFlip(),  # Randomly flip the image horizontally
-        transforms.RandomRotation(20),  # Randomly rotate the image by up to 20 degrees
-        transforms.RandomPerspective(
-            distortion_scale=0.2, p=0.2
-        ),  # Randomly apply perspective transformation with a probability of 0.2
-        transforms.RandomAffine(
-            degrees=0, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=10
-        ),  # Randomly apply affine transformation
-        transforms.RandomErasing(
-            p=0.2, scale=(0.02, 0.33), ratio=(0.3, 3.3)
-        ),  # Randomly erase parts of the image
-        transforms.RandomGrayscale(p=0.2),  # Randomly convert the image to grayscale
+        transforms.RandomRotation(10),  # Randomly rotate the image by up to 10 degrees
         transforms.ToTensor(),  # Convert the image to a PyTorch tensor
         transforms.Normalize(
             mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
