@@ -87,5 +87,5 @@ joblib.dump(pipeline, 'baklavaClassifier.pkl')
 # Load the model from the file (for demonstration purposes)
 pipeline = joblib.load('baklavaClassifier.pkl')
 
-# Predict and print the first 10 predictions on the validation set
-print(pipeline.predict(XVal[:10]))
+# Predict and print the first 5 predictions on the validation set
+print(pipeline.predict(XVal[:5]))
