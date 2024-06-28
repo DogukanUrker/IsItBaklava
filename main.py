@@ -16,19 +16,19 @@ dataDir = "./data"
 classes = ["baklava", "notBaklava"]
 
 # Define the target image size for resizing
-imageSize = (224, 224)
+imageSize = (256, 256)
 
 # Define the data augmentation and preprocessing transformations
 dataTransforms = transforms.Compose(
     [
         transforms.RandomResizedCrop(
-            224
-        ),  # Randomly crop and resize the image to 224x224
+            256
+        ),  # Randomly crop and resize the image to 256x256
         transforms.RandomHorizontalFlip(),  # Randomly flip the image horizontally
         transforms.RandomRotation(10),  # Randomly rotate the image by up to 10 degrees
         transforms.ToTensor(),  # Convert the image to a PyTorch tensor
         transforms.Normalize(
-            mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
+            mean=[0.485, 0.456, 0.406], std=[0.229, 0.256, 0.225]
         ),  # Normalize the image
     ]
 )
