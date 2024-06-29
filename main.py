@@ -1,15 +1,15 @@
-import os
-import numpy as np
-from PIL import Image
-import torch
-import torchvision.models as models
-import torchvision.transforms as transforms
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
-from sklearn.pipeline import make_pipeline
-from sklearn.metrics import accuracy_score
-import joblib
+import os  # Operating system functionalities
+import numpy as np  # Numerical operations in Python
+from PIL import Image  # Image processing library
+import torch  # PyTorch deep learning framework
+import torchvision.models as models  # Pre-trained models from torchvision
+import torchvision.transforms as transforms  # Image transformations
+from sklearn.model_selection import train_test_split  # Splitting data into train and validation sets
+from sklearn.preprocessing import StandardScaler  # Standardization of features
+from sklearn.svm import SVC  # Support Vector Classifier
+from sklearn.pipeline import make_pipeline  # Pipeline for chaining preprocessing and classifier
+from sklearn.metrics import accuracy_score  # Metric to measure accuracy
+import joblib  # Saving and loading models
 
 # Define the directory where the dataset is stored and the class names
 dataDir = "./data"
