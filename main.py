@@ -19,6 +19,8 @@ from sklearn.metrics import (
 import joblib  # Save and load Python objects (including sklearn models) to and from disk
 import time  # Time-related functionalities
 
+print("\n")  # Print newline for better readability
+
 appStartTime = time.time()  # Record start time for app
 
 # Define the directory where the dataset is stored and the class names
@@ -44,8 +46,6 @@ dataTransforms = transforms.Compose(
         ),  # Normalize image with specific mean and std
     ]
 )
-
-print("\n")  # Print newline for better readability
 
 
 # Function to load images and their corresponding labels
@@ -74,15 +74,8 @@ def loadImages(dataDir, classes, imageSize):
     return images  # Return list of loaded images and labels
 
 
-print("\n")  # Print newline for better readability
-
 # Load the images and their labels
-startTime = time.time()  # Record start time for loading images
 imageLabelPairs = loadImages(dataDir, classes, imageSize)  # Call loadImages function
-endTime = time.time()  # Record end time for loading images
-print(
-    f"Loaded imageLabelPairs in {(endTime - startTime):.2f} seconds."
-)  # Print loading time
 
 print("\n")  # Print newline for better readability
 
@@ -108,7 +101,6 @@ print("\n")  # Print newline for better readability
 def extractFeatures(images):
     features = []  # List to store extracted features
     labels = []  # List to store corresponding labels
-    startTime = time.time()  # Record start time for feature extraction
     print(f"Extracting features from {len(images)} images...")  # Print progress message
     for idx, (image, label) in enumerate(
         images, start=1
@@ -126,16 +118,10 @@ def extractFeatures(images):
             images
         ):  # Print progress every 100 images processed or at the end
             print(f"Processed {idx}/{len(images)} images...")  # Print progress message
-    endTime = time.time()  # Record end time for feature extraction
-    print(
-        f"Extracted features from {len(images)} images in {(endTime - startTime):.2f} seconds."
-    )  # Print extraction time
     return np.array(features), np.array(
         labels
     )  # Convert lists to numpy arrays and return
 
-
-print("\n")  # Print newline for better readability
 
 # Extract features and labels from the images
 startTime = time.time()  # Record start time for feature extraction
@@ -243,7 +229,7 @@ print("\n")  # Print newline for better readability
 
 appEndTime = time.time()  # Record end time for app
 print(
-    f"Training and testing completed successfully in {(appEndTime - appStartTime):.2f}"
+    f"Training and testing completed successfully in {(appEndTime - appStartTime):.2f} seconds."
 )  # Print completion message
 
 print("\n")  # Print newline for better readability
