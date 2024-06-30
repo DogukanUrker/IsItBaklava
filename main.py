@@ -3,7 +3,6 @@ import os  # For operating system related functionalities
 import numpy as np  # Numerical operations library
 from PIL import Image  # Python Imaging Library for image processing
 import torch  # PyTorch deep learning framework
-import torchvision.models as models  # Pre-trained models from torchvision
 import torchvision.transforms as transforms  # Data transformations for images
 from sklearn.model_selection import train_test_split  # Splitting dataset
 from sklearn.preprocessing import (
@@ -18,6 +17,12 @@ from sklearn.metrics import (
 )  # Evaluation metric for classification accuracy
 import joblib  # Save and load Python objects (including sklearn models) to and from disk
 import time  # Time-related functionalities
+import ssl  # SSL certificate handling
+import certifi  # Mozilla's CA Bundle
+from efficientnet_pytorch import EfficientNet  # EfficientNet model
+
+# Fix SSL certificate verification issues
+ssl._create_default_https_context = ssl._create_unverified_context
 
 print("\n")  # Print newline for better readability
 
@@ -42,7 +47,7 @@ dataTransforms = transforms.Compose(
         ),  # Rotate the image by a random angle within [-10, 10] degrees
         transforms.ToTensor(),  # Convert the image to PyTorch tensor
         transforms.Normalize(
-            mean=[0.485, 0.456, 0.406], std=[0.229, 0.256, 0.225]
+            mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
         ),  # Normalize image with specific mean and std
     ]
 )
@@ -79,19 +84,19 @@ imageLabelPairs = loadImages(dataDir, classes, imageSize)  # Call loadImages fun
 
 print("\n")  # Print newline for better readability
 
-# Load a pre-trained ResNet model for feature extraction
-startTime = time.time()  # Record start time for loading ResNet model
-print("Loading pre-trained ResNet model...")  # Print progress message
-model = models.resnet18(
-    weights=models.ResNet18_Weights.DEFAULT
-)  # Load pre-trained ResNet-18 model with weights parameter
+# Load a pre-trained EfficientNet-B0 model for feature extraction
+startTime = time.time()  # Record start time for loading EfficientNet model
+print("Loading pre-trained EfficientNet-B0 model...")  # Print progress message
+model = EfficientNet.from_pretrained(
+    "efficientnet-b0"
+)  # Load pre-trained EfficientNet-B0 model
 model.eval()  # Set model to evaluation mode (not training mode)
-featureExtractor = torch.nn.Sequential(
-    *list(model.children())[:-1]
-)  # Extract feature extractor from ResNet model
-endTime = time.time()  # Record end time for loading ResNet model
+featureExtractor = (
+    model.extract_features
+)  # Use the extract_features method for feature extraction
+endTime = time.time()  # Record end time for loading EfficientNet model
 print(
-    f"Loaded ResNet model in {(endTime - startTime):.2f} seconds."
+    f"Loaded EfficientNet-B0 model in {(endTime - startTime):.2f} seconds."
 )  # Print loading time
 
 print("\n")  # Print newline for better readability
@@ -116,7 +121,7 @@ def extractFeatures(images):
         labels.append(label)  # Append corresponding label to list
         if idx % 1000 == 0 or idx == len(
             images
-        ):  # Print progress every 100 images processed or at the end
+        ):  # Print progress every 1000 images processed or at the end
             print(f"Processed {idx}/{len(images)} images...")  # Print progress message
     return np.array(features), np.array(
         labels
